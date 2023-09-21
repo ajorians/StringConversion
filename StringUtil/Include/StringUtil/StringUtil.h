@@ -36,6 +36,7 @@ namespace StringUtil
 
    STRINGUTIL_API std::string ToStdString( std::string_view str );
    STRINGUTIL_API std::string ToStdString( std::wstring_view wstr );
+   STRINGUTIL_API std::string ToStdString( std::u8string_view u8str );
    template <typename T, Details::Requires<Details::is_CStringT<T>::value> = true>
    std::string ToStdString( const T& atlStr )
    {
@@ -46,6 +47,7 @@ namespace StringUtil
 
    STRINGUTIL_API std::wstring ToStdWString( std::string_view str );
    STRINGUTIL_API std::wstring ToStdWString( std::wstring_view wstr );
+   STRINGUTIL_API std::wstring ToStdWString( std::u8string_view u8str );
    template <typename T, Details::Requires<Details::is_CStringT<T>::value> = true>
    std::wstring ToStdWString( const T& atlStr )
    {
@@ -54,6 +56,18 @@ namespace StringUtil
 
    ////////////////////////////////////////////
 
-   CAtlString ToCAtlString( std::string_view str );
-   CAtlString ToCAtlString( std::wstring_view wstr );
+   STRINGUTIL_API std::u8string ToStdu8String( std::string_view str );
+   STRINGUTIL_API std::u8string ToStdu8String( std::wstring_view wstr );
+   STRINGUTIL_API std::u8string ToStdu8String( std::u8string_view u8str );
+   template <typename T, Details::Requires<Details::is_CStringT<T>::value> = true>
+   std::u8string ToStdu8String( const T& atlStr )
+   {
+      return ToStdu8String( std::wstring_view{ atlStr.GetString(), (std::size_t)atlStr.GetLength() } );
+   }
+
+   ////////////////////////////////////////////
+
+   STRINGUTIL_API CAtlString ToCAtlString( std::string_view str );
+   STRINGUTIL_API CAtlString ToCAtlString( std::wstring_view wstr );
+   STRINGUTIL_API CAtlString ToCAtlString( std::u8string_view u8str );
 }

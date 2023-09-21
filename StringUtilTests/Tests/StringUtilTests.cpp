@@ -78,6 +78,33 @@ TEST_F( StringUtilTests, ToStdString_UnicodeCharacterStdWString_ReturnsCorrectSt
    EXPECT_EQ( strExpected, StringUtil::ToStdString( strInput ) );
 }
 
+///// ToStdString( std::u8string )
+
+TEST_F( StringUtilTests, ToStdString_AnsiStdu8String_ReturnsCorrectStdString )
+{
+   std::u8string strInput( NEVER_TRANSLATEA( u8"ABC123"s ) );
+   std::string strExpected = NEVER_TRANSLATEA( "ABC123"s );
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdString( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdString_EmptyStdu8String_ReturnsEmptyStdString )
+{
+   std::u8string strInput;
+   std::string strExpected;
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdString( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdString_UnicodeCharacterStdu8String_ReturnsCorrectStdString )
+{
+   std::u8string strInput( NEVER_TRANSLATEA( u8"\u2764\u2602\u260E\u2744"s ) ); //Heart-symbol umbrella telephone snowflake
+   std::u8string strExpectedAsU8( NEVER_TRANSLATEA( u8"\u2764\u2602\u260E\u2744"s ) );
+   std::string strExpected( strExpectedAsU8.begin(), strExpectedAsU8.end() );
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdString( strInput ) );
+}
+
 /////// ToStdWString( CAtlString )
 
 TEST_F( StringUtilTests, ToStdWString_AnsiCAtlString_ReturnsCorrectStdWString )
@@ -129,6 +156,84 @@ TEST_F( StringUtilTests, ToStdWString_UnicodeCharacterStdString_ReturnsCorrectSt
    std::wstring strExpected = NEVER_TRANSLATE( "\u2764\u2602\u260E\u2744" );
 
    EXPECT_EQ( strExpected, StringUtil::ToStdWString( strInput ) );
+}
+
+/////// ToStdWString( std::u8string )
+
+TEST_F( StringUtilTests, ToStdWString_AnsiStdu8string_ReturnsCorrectStdWString )
+{
+   std::u8string strInput( NEVER_TRANSLATEA( u8"ABC123"s ) );
+   std::wstring strExpected = NEVER_TRANSLATE( "ABC123" );
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdWString( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdWString_EmptyStdu8string_ReturnsEmptyStdWString )
+{
+   std::u8string strInput;
+   std::wstring strExpected;
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdWString( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdWString_UnicodeCharacterStdu8string_ReturnsCorrectStdWString )
+{
+   std::u8string strInputAsU8( NEVER_TRANSLATEA( u8"\u2764\u2602\u260E\u2744"s ) ); //Heart-symbol umbrella telephone snowflake
+   std::wstring strExpected = NEVER_TRANSLATE( "\u2764\u2602\u260E\u2744" );
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdWString( strInputAsU8 ) );
+}
+
+/////// ToStdu8string( CAtlString )
+
+TEST_F( StringUtilTests, ToStdu8String_AnsiCAtlString_ReturnsCorrectStdString )
+{
+   CAtlString cstrInput( NEVER_TRANSLATE( "ABC123" ) );
+   std::u8string strExpected = NEVER_TRANSLATEA( u8"ABC123"s );
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdu8String( cstrInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdu8String_EmptyCAtlString_ReturnsEmptyStdString )
+{
+   CAtlString cstrInput;
+   std::u8string strExpected;
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdu8String( cstrInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdu8String_UnicodeCharacterCAtlString_ReturnsCorrectStdString )
+{
+   CAtlString cstrInput( NEVER_TRANSLATE( "\u2764\u2602\u260E\u2744" ) ); //Heart-symbol umbrella telephone snowflake
+   std::u8string strExpectedAsU8( NEVER_TRANSLATEA( u8"\u2764\u2602\u260E\u2744"s ) );
+
+   EXPECT_EQ( strExpectedAsU8, StringUtil::ToStdu8String( cstrInput ) );
+}
+
+///// ToStdu8String( std::wstring )
+
+TEST_F( StringUtilTests, ToStdu8String_AnsiStdWString_ReturnsCorrectStdString )
+{
+   std::wstring strInput( NEVER_TRANSLATE( "ABC123" ) );
+   std::u8string strExpected = NEVER_TRANSLATEA( u8"ABC123"s );
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdu8String( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdu8String_EmptyStdWString_ReturnsEmptyStdString )
+{
+   std::wstring strInput;
+   std::u8string strExpected;
+
+   EXPECT_EQ( strExpected, StringUtil::ToStdu8String( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdu8String_UnicodeCharacterStdWString_ReturnsCorrectStdString )
+{
+   std::wstring strInput( NEVER_TRANSLATE( "\u2764\u2602\u260E\u2744" ) ); //Heart-symbol umbrella telephone snowflake
+   std::u8string strExpectedAsU8( NEVER_TRANSLATEA( u8"\u2764\u2602\u260E\u2744"s ) );
+
+   EXPECT_EQ( strExpectedAsU8, StringUtil::ToStdu8String( strInput ) );
 }
 
 /////// ToCAtlString( std::string )
@@ -184,6 +289,32 @@ TEST_F( StringUtilTests, ToCAtlString_UnicodeCharacterStdWString_ReturnsCorrectC
    EXPECT_EQ( cstrExpected, StringUtil::ToCAtlString( strInput ) );
 }
 
+/////// ToCAtlString( std::u8string )
+
+TEST_F( StringUtilTests, ToCAtlString_AnsiStdu8String_ReturnsCorrectCAtlString )
+{
+   std::u8string strInput( NEVER_TRANSLATEA( u8"ABC123"s ) );
+   CAtlString cstrExpected = NEVER_TRANSLATE( "ABC123" );
+
+   EXPECT_EQ( cstrExpected, StringUtil::ToCAtlString( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToCAtlString_EmptyStdu8String_ReturnsEmptyCAtlString )
+{
+   std::u8string strInput;
+   CAtlString cstrExpected;
+
+   EXPECT_EQ( cstrExpected, StringUtil::ToCAtlString( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToCAtlString_UnicodeCharacterStdu8String_ReturnsCorrectCAtlString )
+{
+   std::u8string strInput = NEVER_TRANSLATEA( u8"\u2764\u2602\u260E\u2744"s ); //Heart-symbol umbrella telephone snowflake
+   CAtlString cstrExpected( NEVER_TRANSLATE( "\u2764\u2602\u260E\u2744" ) );
+
+   EXPECT_EQ( cstrExpected, StringUtil::ToCAtlString( strInput ) );
+}
+
 /////// Comparing implementations
 
 TEST_F( StringUtilTests, ToCAtlString_AnsiStdString_ReturnsCorrectCAtlStringAsToStdWStringToCAtlString )
@@ -232,6 +363,15 @@ TEST_F( StringUtilTests, ToStdWString_ConstCharString_ReturnsCorrectStdWString )
    EXPECT_EQ( strwExpected, StringUtil::ToStdWString( pstrInput ) );
 }
 
+TEST_F( StringUtilTests, ToStdu8String_ConstCharString_ReturnsCorrectStdu8String )
+{
+   const char* pstrInput( NEVER_TRANSLATEA( "ABC123" ) );
+
+   std::u8string stru8Expected( NEVER_TRANSLATEA( u8"ABC123"s ) );
+
+   EXPECT_EQ( stru8Expected, StringUtil::ToStdu8String( pstrInput ) );
+}
+
 TEST_F( StringUtilTests, ToStdString_ConstWCharString_ReturnsCorrectStdString )
 {
    const wchar_t* pwstrInput( NEVER_TRANSLATE( "ABC123" ) );
@@ -248,6 +388,15 @@ TEST_F( StringUtilTests, ToStdWString_ConstWCharString_ReturnsCorrectStdWString 
    std::wstring strwExpected( NEVER_TRANSLATE( "ABC123" ) );
 
    EXPECT_EQ( strwExpected, StringUtil::ToStdWString( pwstrInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdu8String_ConstWCharString_ReturnsCorrectStdu8String )
+{
+   const wchar_t* pwstrInput( NEVER_TRANSLATE( "ABC123" ) );
+
+   std::u8string stru8Expected( NEVER_TRANSLATEA( u8"ABC123"s ) );
+
+   EXPECT_EQ( stru8Expected, StringUtil::ToStdu8String( pwstrInput ) );
 }
 
 ///////// Testing with std::string_view
@@ -270,6 +419,15 @@ TEST_F( StringUtilTests, ToStdWString_StringView_ReturnsCorrectStdWString )
    EXPECT_EQ( strwExpected, StringUtil::ToStdWString( strInput ) );
 }
 
+TEST_F( StringUtilTests, ToStdu8String_StringView_ReturnsCorrectStdu8String )
+{
+   std::string_view strInput = NEVER_TRANSLATEA( "ABC123"sv );
+
+   std::u8string stru8Expected( NEVER_TRANSLATEA( u8"ABC123"s ) );
+
+   EXPECT_EQ( stru8Expected, StringUtil::ToStdu8String( strInput ) );
+}
+
 TEST_F( StringUtilTests, ToStdString_WideStringView_ReturnsCorrectStdString )
 {
    std::wstring_view strInput = NEVER_TRANSLATEA( L"ABC123"sv );
@@ -286,6 +444,15 @@ TEST_F( StringUtilTests, ToStdWString_WideStringView_ReturnsCorrectStdWString )
    std::wstring strwExpected( NEVER_TRANSLATE( "ABC123" ) );
 
    EXPECT_EQ( strwExpected, StringUtil::ToStdWString( strInput ) );
+}
+
+TEST_F( StringUtilTests, ToStdu8String_WideStringView_ReturnsCorrectStdu8String )
+{
+   std::wstring_view strInput = NEVER_TRANSLATEA( L"ABC123"sv );
+
+   std::u8string stru8Expected( NEVER_TRANSLATEA( u8"ABC123"s ) );
+
+   EXPECT_EQ( stru8Expected, StringUtil::ToStdu8String( strInput ) );
 }
 
 TEST_F( StringUtilTests, ToStdString_CStringWithCRTStringTraits_ConvertsString )
